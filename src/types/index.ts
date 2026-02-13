@@ -25,8 +25,9 @@ export interface IBuyer {
 
 // Ответ сервера с товарами
 export interface IProductsResponse {
-  items: IProduct[];
-}
+    total: number; //количество карточек товаров в массиве
+    items: IProduct[];
+ }
 
 // Данные заказа для отправки на сервер
 export interface IOrderRequest {
@@ -37,6 +38,12 @@ export interface IOrderRequest {
   items: string[]; // массив id товаров
   total: number;
 }
+
+//  Ответ с сервера при сохранении заказа
+export interface IOrderResponse {
+    id: string,
+    total: number
+ }
 
 
 
