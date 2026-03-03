@@ -1,8 +1,8 @@
 export type ApiPostMethods = 'POST' | 'PUT' | 'DELETE';
 
 export interface IApi {
-    get<T extends object>(uri: string): Promise<T>;
-    post<T extends object>(uri: string, data: object, method?: ApiPostMethods): Promise<T>;
+  get<T extends object>(uri: string): Promise<T>;
+  post<T extends object>(uri: string, data: object, method?: ApiPostMethods): Promise<T>;
 }
 
 export interface IProduct {
@@ -25,9 +25,9 @@ export interface IBuyer {
 
 // Ответ сервера с товарами
 export interface IProductsResponse {
-    total: number; //количество карточек товаров в массиве
-    items: IProduct[];
- }
+  total: number; //количество карточек товаров в массиве
+  items: IProduct[];
+}
 
 // Данные заказа для отправки на сервер
 export interface IOrderRequest {
@@ -41,9 +41,9 @@ export interface IOrderRequest {
 
 //  Ответ с сервера при сохранении заказа
 export interface IOrderResponse {
-    id: string,
-    total: number
- }
+  id: string;
+  total: number;
+}
 
 
 
