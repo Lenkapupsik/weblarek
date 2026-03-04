@@ -15,9 +15,9 @@ export class Buyer {
     if (data.phone !== undefined) this.phone = data.phone;
     if (data.address !== undefined) this.address = data.address;
 
-    this.events.emit('buyer:change', { ...data });
+  this.events.emit('buyer:change', this.getData());
   }
-
+  
   getData(): IBuyer {
     return {
       payment: this.payment,
@@ -32,20 +32,21 @@ export class Buyer {
     this.email = '';
     this.phone = '';
     this.address = '';
-    this.events.emit('buyer:clear');
+
+    this.events.emit('buyer:clear', {
+      data: this.getData(),
+      errors: this.validate()
+    });
   }
 
-  validateOrderStep() {
+  validate(): Partial<Record<keyof IBuyer, string>> {
     const errors: Partial<Record<keyof IBuyer, string>> = {};
+
     if (!this.payment) errors.payment = 'Не выбран вид оплаты';
-    if (!this.address) errors.address = 'Необходимо указать адрес';
-    return errors;
-  }
-
-  validateContactsStep() {
-    const errors: Partial<Record<keyof IBuyer, string>> = {};
     if (!this.email) errors.email = 'Укажите адрес электронной почты';
     if (!this.phone) errors.phone = 'Укажите номер телефона';
+    if (!this.address) errors.address = 'Укажите адрес';
+
     return errors;
   }
 }

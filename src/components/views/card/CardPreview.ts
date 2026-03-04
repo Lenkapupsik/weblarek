@@ -1,5 +1,4 @@
 import { ensureElement } from "../../../utils/utils";
-import { IEvents } from "../../base/Events";
 import { Card, ICard } from "./Card";
 import { categoryMap } from "../../../utils/constants";
 
@@ -11,22 +10,28 @@ export interface ICardPreview extends ICard {
   available: boolean;
 }
 
-export class CardPreview extends Card<CardPreview> {
-  
+export class CardPreview extends Card<ICardPreview> {
+
   protected imageCard: HTMLImageElement;
   protected categoryCard: HTMLElement;
   protected textCard: HTMLElement;
   protected buttonCard: HTMLButtonElement;
+  protected onAction: () => void;
 
-  protected actionEvent = "card:toggle"; // событие для добавления/удаления товара в корзину
+  constructor(container: HTMLElement, onAction: () => void) {
+    super(container);
 
-  constructor(container: HTMLElement, events: IEvents, id: string) {
-    super(container, events, id);
+    this.onAction = onAction;
 
     this.imageCard = ensureElement<HTMLImageElement>(".card__image", this.container);
     this.categoryCard = ensureElement<HTMLElement>(".card__category", this.container);
     this.textCard = ensureElement<HTMLElement>(".card__text", this.container);
     this.buttonCard = ensureElement<HTMLButtonElement>(".card__button", this.container);
+
+    // Клик для карточки просмотра
+    this.buttonCard.addEventListener('click', () => {
+      this.onAction();
+    });
   }
 
   set category(value: string) {
@@ -52,9 +57,7 @@ export class CardPreview extends Card<CardPreview> {
   }
 
   set inBasket(value: boolean) {
-    if (this.buttonCard.disabled) {
-      return;
-    }
+    if (this.buttonCard.disabled) return;
 
     this.buttonCard.textContent = value
       ? "Удалить из корзины"
@@ -62,17 +65,14 @@ export class CardPreview extends Card<CardPreview> {
   }
 
   render(data?: Partial<ICardPreview>): HTMLElement {
-    if (!data) return super.render();
+    super.render(data);
 
-    super.render(data as Partial<ICard>); // title и price обновятся
-
-    if (data.category !== undefined) this.category = data.category;
-    if (data.image !== undefined) this.image = data.image;
-    if (data.text !== undefined) this.text = data.text;
-    if (data.available !== undefined) this.available = data.available;
-    if (data.inBasket !== undefined) this.inBasket = data.inBasket;
+    if (data?.category) this.category = data.category;
+    if (data?.image) this.image = data.image;
+    if (data?.text) this.text = data.text;
+    if (data?.available !== undefined) this.available = data.available;
+    if (data?.inBasket !== undefined) this.inBasket = data.inBasket;
 
     return this.container;
   }
 }
-

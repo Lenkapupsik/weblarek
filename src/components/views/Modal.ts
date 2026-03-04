@@ -44,7 +44,3 @@ export class Modal extends Component<IModal> {
     this.modalContent.replaceChildren(element);
   }
 }
-
-
-
-

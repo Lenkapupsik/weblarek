@@ -17,4 +17,3 @@ export class WebLarekApi {
     return this.api.post<IOrderResponse>('/order/', order);
   }
 }
-

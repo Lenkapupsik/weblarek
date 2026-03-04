@@ -25,6 +25,11 @@ export class BasketView extends Component<IBasketView> {
     this.emptyText = document.createElement('p');
     this.emptyText.textContent = 'Корзина пуста';
 
+    // Начальное состояние корзины
+    this.basketButton.disabled = true;
+    this.basketList.replaceChildren(this.emptyText);
+    this.total = 0;
+
     this.basketButton.addEventListener('click', () => {
       this.events.emit('order:open');
     });
@@ -44,14 +49,8 @@ export class BasketView extends Component<IBasketView> {
     this.totalPrice.textContent = `${value} синапсов`;
   }
 
-  /** Блокировка кнопки */
+  // / Блокировка кнопки 
   set disabled(value: boolean) {
     this.basketButton.disabled = value;
   }
 }
-
-
-
-
-
-
