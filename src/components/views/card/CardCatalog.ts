@@ -22,7 +22,7 @@ export class CardCatalog extends Card<ICardCatalog> {
 
     // Клик только для каталога
     this.container.addEventListener('click', () => {
-      this.onClick(); // эмит события preview с ID
+      this.onClick(); 
     });
   }
 

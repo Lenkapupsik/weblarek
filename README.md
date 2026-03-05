@@ -509,17 +509,16 @@ interface ICardBasket extends ICard {
 Позволяет удалить товар из корзины.
 
 Конструктор:
-constructor(container: HTMLElement, events: IEvents, id: string)
+constructor(container: HTMLElement, onClick: () => void)
 
 container: HTMLElement — контейнер карточки.
-events — экземпляр системы событий.
-id — идентификатор товара.
+onClick — callback, вызываемый при клике на кнопку в карточке.
+
 
 Поля класса:
 indexElement: HTMLElement — элемент позиции в корзине (.basket__item-index)
 button: HTMLButtonElement — кнопка удаления (.card__button)
-id: string — идентификатор товара
-events: IEvents — система событий
+onClick: () => void — обработчик клика по кнопки в карточке
 
 Методы:
 set index(value: number) — устанавливает порядковый номер товара в корзине.

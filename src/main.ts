@@ -82,14 +82,12 @@ events.on('products:set', ({ items }: { items: IProduct[] }) => {
       () => events.emit('card:preview', { id: item.id }) // эмит только ID
     );
 
-    card.render({
+    return card.render({
       title: item.title,
       price: item.price !== null ? `${item.price} синапсов` : 'Бесценно',
       category: item.category,
       image: item.image
     });
-
-    return card.render();
   });
 
   gallery.catalog = cards;
@@ -100,11 +98,12 @@ events.on('basket:change', () => {
   const items = basketModel.getItems();
 
   const cards = items.map((item, index) => {
-    return new CardBasket(
+    const card = new CardBasket(
       cloneTemplate('#card-basket'),
-      events,
-      item.id
-    ).render({
+      () => events.emit('basket:remove', { id: item.id })
+    );
+
+    return card.render({
       title: item.title,
       price: `${item.price} синапсов`,
       index: index + 1
@@ -122,7 +121,7 @@ events.on('basket:change', () => {
   basketView.disabled = basketModel.getItemsCount() === 0;
 
   if (items.length === 0) {
-    buyerModel.clear(); // очищаем модель покупателя
+    buyerModel.clear();// очищаем модель покупателя
     events.emit('buyer:clear'); // очищаем формы
   }
 });
